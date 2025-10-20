@@ -133,7 +133,7 @@ const Register = () => {
           {/* ... other elements ... */}
           <div className="mt-4">
             <a
-              href="http://localhost:3000/auth/google"
+              href={`${axios.defaults.baseURL}/auth/google`}
               className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full block text-center"
             >
               Sign up with Google
