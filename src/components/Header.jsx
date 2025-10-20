@@ -8,22 +8,22 @@ import { useCategory } from '../context/CategoryContext';
 
 const Header = () => {
   const [user, setUser] = useState(null);
-  const [isHoveringAccount, setIsHoveringAccount] = useState(false); // New state for hover
-  const { cart, fetchCart, clearCart } = useCart(); // Added clearCart
+  const [isHoveringAccount, setIsHoveringAccount] = useState(false); // Reintroduce state for hover
+  const { cart, fetchCart, clearCart } = useCart();
   const { selectedCategory, setSelectedCategory } = useCategory();
-  const navigate = useNavigate(); // Import useNavigate
+  const navigate = useNavigate();
+  let hoverTimeout; // To manage the delay
 
   useEffect(() => {
     const storedUserId = localStorage.getItem('userId');
     if (storedUserId) {
-      axios.get(`/auth/user/${storedUserId}`)
+      axios.get(`/api/auth/user/${storedUserId}`)
         .then(response => {
           setUser(response.data.user);
-          fetchCart(); // Fetch cart when user is loaded
+          fetchCart();
         })
         .catch(error => {
           console.error('Error fetching user data:', error);
-          // If token is invalid or user not found, clear local storage
           localStorage.removeItem('token');
           localStorage.removeItem('userId');
           setUser(null);
@@ -43,7 +43,18 @@ const Header = () => {
     localStorage.removeItem('userId');
     setUser(null);
     clearCart();
-    navigate('/'); // Navigate to sign-in page
+    navigate('/');
+  };
+
+  const handleMouseEnter = () => {
+    clearTimeout(hoverTimeout);
+    setIsHoveringAccount(true);
+  };
+
+  const handleMouseLeave = () => {
+    hoverTimeout = setTimeout(() => {
+      setIsHoveringAccount(false);
+    }, 200); // 200ms delay
   };
 
   return (
@@ -100,13 +111,17 @@ const Header = () => {
       {/* Right Section - Account, Orders, Cart */}
       <div className="flex items-center space-x-4 md:space-x-6 whitespace-nowrap order-2 md:order-3">
         {/* Accounts & Lists with Dropdown */}
-        <div className="relative link flex flex-col cursor-pointer group">
+        <div
+          className="relative link flex flex-col cursor-pointer"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
           <Link to={user ? '/home' : '/'} className="link">
             <p className="text-xs hidden sm:inline">Hello, {user ? user.fullName : 'Sign In'}</p>
             <p className="font-bold text-sm">Accounts & Lists</p>
           </Link>
-          {user && (
-            <div className="absolute top-full left-0 mt-1 w-48 bg-white text-gray-900 rounded-md shadow-lg z-50 py-1 hidden group-hover:block">
+          {user && isHoveringAccount && (
+            <div className="absolute top-full left-0 mt-1 w-48 bg-white text-gray-900 rounded-md shadow-lg z-50 py-1">
               <button
                 onClick={handleSignOut}
                 className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
