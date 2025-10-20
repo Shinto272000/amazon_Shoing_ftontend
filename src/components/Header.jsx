@@ -8,8 +8,10 @@ import { useCategory } from '../context/CategoryContext';
 
 const Header = () => {
   const [user, setUser] = useState(null);
-  const { cart, fetchCart } = useCart();
+  const [isHoveringAccount, setIsHoveringAccount] = useState(false); // New state for hover
+  const { cart, fetchCart, clearCart } = useCart(); // Added clearCart
   const { selectedCategory, setSelectedCategory } = useCategory();
+  const navigate = useNavigate(); // Import useNavigate
 
   useEffect(() => {
     const storedUserId = localStorage.getItem('userId');
@@ -21,6 +23,11 @@ const Header = () => {
         })
         .catch(error => {
           console.error('Error fetching user data:', error);
+          // If token is invalid or user not found, clear local storage
+          localStorage.removeItem('token');
+          localStorage.removeItem('userId');
+          setUser(null);
+          clearCart();
         });
     }
   }, []);
@@ -29,6 +36,14 @@ const Header = () => {
 
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
+  };
+
+  const handleSignOut = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    setUser(null);
+    clearCart();
+    navigate('/'); // Navigate to sign-in page
   };
 
   return (
@@ -84,12 +99,27 @@ const Header = () => {
 
       {/* Right Section - Account, Orders, Cart */}
       <div className="flex items-center space-x-4 md:space-x-6 whitespace-nowrap order-2 md:order-3">
-        <Link to={user ? '/home' : '/'} className="link">
-          <div className="flex flex-col">
+        {/* Accounts & Lists with Dropdown */}
+        <div
+          className="relative link flex flex-col cursor-pointer"
+          onMouseEnter={() => setIsHoveringAccount(true)}
+          onMouseLeave={() => setIsHoveringAccount(false)}
+        >
+          <Link to={user ? '/home' : '/'} className="link">
             <p className="text-xs hidden sm:inline">Hello, {user ? user.fullName : 'Sign In'}</p>
             <p className="font-bold text-sm">Accounts & Lists</p>
-          </div>
-        </Link>
+          </Link>
+          {user && isHoveringAccount && (
+            <div className="absolute top-full left-0 mt-1 w-48 bg-white text-gray-900 rounded-md shadow-lg z-50 py-1">
+              <button
+                onClick={handleSignOut}
+                className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+              >
+                Sign Out
+              </button>
+            </div>
+          )}
+        </div>
 
         <Link to="/orders" className="link">
           <div className="flex flex-col">
