@@ -19,7 +19,7 @@ const OrderHistoryPage = () => {
           setLoading(false);
           return;
         }
-        const response = await axios.get(`/api/orders/user/${userId}`, {
+        const response = await axios.get(`/orders/user/${userId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
