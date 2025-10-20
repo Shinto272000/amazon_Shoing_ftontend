@@ -85,9 +85,9 @@ const Header = () => {
           <option value="Electronics">Electronics</option>
         </select>
         <input
-          className="p-2 h-full w-full flex-grow focus:outline-none bg-white text-black text-sm"
+          className="p-2 h-full w-full flex-grow focus:outline-none bg-white text-black text-sm cursor-not-allowed hover:cursor-not-allowed"
           type="text"
-          placeholder="Search Amazon.in"
+          placeholder="Search Amazon.in" disabled
         />
         <button className="p-2 bg-yellow-500 hover:bg-yellow-600 rounded-r-md text-black">
           {/* Search Icon */}
