@@ -36,7 +36,7 @@ const PlaceOrderPage = () => {
       const token = localStorage.getItem('token');
       const expectedDeliveryDate = getExpectedDeliveryDate();
       const orderDataWithDelivery = { ...orderData, expectedDeliveryDate };
-      const response = await axios.post('/api/orders', orderDataWithDelivery, {
+      const response = await axios.post('/orders', orderDataWithDelivery, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setPlacedOrderDetails(response.data);
