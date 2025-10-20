@@ -12,13 +12,13 @@ const SignIn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    console.log('Attempting to log in with:', { email, password }); // Added for debugging
+    // console.log('Attempting to log in with:', { email, password }); // Added for debugging
     try {
       const response = await axios.post('/auth/login', { identifier: email, password });
       const { token, userId } = response.data;
       localStorage.setItem('token', token);
       localStorage.setItem('userId', userId);
-      console.log('Login successful, token:', token);
+      // console.log('Login successful, token:', token);
       navigate('/home');
     } catch (error) {
       console.error(error);
