@@ -100,17 +100,13 @@ const Header = () => {
       {/* Right Section - Account, Orders, Cart */}
       <div className="flex items-center space-x-4 md:space-x-6 whitespace-nowrap order-2 md:order-3">
         {/* Accounts & Lists with Dropdown */}
-        <div
-          className="relative link flex flex-col cursor-pointer"
-          onMouseEnter={() => setIsHoveringAccount(true)}
-          onMouseLeave={() => setIsHoveringAccount(false)}
-        >
+        <div className="relative link flex flex-col cursor-pointer group">
           <Link to={user ? '/home' : '/'} className="link">
             <p className="text-xs hidden sm:inline">Hello, {user ? user.fullName : 'Sign In'}</p>
             <p className="font-bold text-sm">Accounts & Lists</p>
           </Link>
-          {user && isHoveringAccount && (
-            <div className="absolute top-full left-0 mt-1 w-48 bg-white text-gray-900 rounded-md shadow-lg z-50 py-1">
+          {user && (
+            <div className="absolute top-full left-0 mt-1 w-48 bg-white text-gray-900 rounded-md shadow-lg z-50 py-1 hidden group-hover:block">
               <button
                 onClick={handleSignOut}
                 className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
