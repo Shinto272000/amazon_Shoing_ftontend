@@ -6,7 +6,7 @@ import App from './App.jsx';
 import { CartProvider } from './context/CartContext.jsx';
 import { CategoryProvider } from './context/CategoryContext.jsx';
 
-axios.defaults.baseURL = '/api';
+axios.defaults.baseURL = 'https://amazon-shop-backend-zptc.onrender.com/api';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
