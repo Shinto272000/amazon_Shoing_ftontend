@@ -17,7 +17,7 @@ const Header = () => {
   useEffect(() => {
     const storedUserId = localStorage.getItem('userId');
     if (storedUserId) {
-      axios.get(`/api/auth/user/${storedUserId}`)
+      axios.get(`/auth/user/${storedUserId}`)
         .then(response => {
           setUser(response.data.user);
           fetchCart();
