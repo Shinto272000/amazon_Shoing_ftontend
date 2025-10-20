@@ -31,7 +31,7 @@ const ProductDetailsPage = () => {
         setMainImage(productResponse.data.imageUrls[0]);
 
         // Fetch reviews for the product
-        const reviewsResponse = await axios.get(`/api/reviews/product/${id}`);
+        const reviewsResponse = await axios.get(`/reviews/product/${id}`);
         setReviews(reviewsResponse.data);
 
         setLoading(false);
